@@ -1,0 +1,34 @@
+body {
+  background-color: rgb(45, 32, 56);
+}
+
+#root {
+  width: 400px;
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  background-color: rgb(73, 47, 47);
+  color: wheat;
+  border-radius: 50px;
+}
+
+.landing {
+  border: 2px solid rgb(77, 76, 76);
+  padding: 5px;
+  button {
+    margin-top: 10px;
+  }
+}
+
+.addProduct{
+  font-size: 12px;
+  padding: 15px;
+}
+
+.allProducts{
+  font-size: 12px;
+  padding: 15px;
+  .product-card{
+    border-bottom: 2px solid rgb(77, 76, 76);
+  }
+} 
