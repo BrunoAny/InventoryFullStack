@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(45, 32, 56);
+  background-color: rgb(21, 25, 29);
 }
 
 #root {
@@ -7,7 +7,7 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
-  background-color: rgb(73, 47, 47);
+  background-color: rgb(33, 32, 34);
   color: wheat;
   border-radius: 50px;
 }

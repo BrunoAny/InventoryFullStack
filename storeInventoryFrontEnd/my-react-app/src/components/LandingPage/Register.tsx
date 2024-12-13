@@ -1,17 +1,27 @@
 import axios from "axios";
-import $ from "jquery";
-const onSubmit = (e: { preventDefault: () => void; }) => {
-  e.preventDefault();
-  axios.post("http://localhost:5000/users/register", {
-    username: $("#inputUsername").val(),
-    email: $("#inputEmail").val(),
-    password: $("#inputPassword").val(),
-    rePass: $("#inputRePassword").val(),
-  }).then((res) => {
-    console.log('new user registered');
-  });
-}
+import { useState } from "react";
 const Register = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rePass, setRePass] = useState("");
+  const onSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/users/register", {
+        username,
+        email,
+        password,
+        rePass
+      });
+      if (response.status === 200) {
+        console.log("User registration successful");
+        window.location.href = "/login";
+      }
+    } catch (err) {
+      console.error("Registration error:", err);
+    }
+  };
   return (
     <div className="container register">
       <form className="form-signin">
@@ -24,6 +34,8 @@ const Register = () => {
           id="inputEmail"
           className="form-control"
           placeholder="Email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
           autoFocus
         />
@@ -35,8 +47,9 @@ const Register = () => {
           id="inputUsername"
           className="form-control"
           placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
-          autoFocus
         />
         <label htmlFor="inputPassword" className="sr-only">
           Password
@@ -46,6 +59,8 @@ const Register = () => {
           id="inputPassword"
           className="form-control"
           placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         <label htmlFor="inputRePassword" className="sr-only">
@@ -56,6 +71,8 @@ const Register = () => {
           id="inputRePassword"
           className="form-control"
           placeholder="Re-Enter Password"
+          value={rePass}
+          onChange={(e) => setRePass(e.target.value)}
           required
         />
         <div className="checkbox">
@@ -63,20 +80,15 @@ const Register = () => {
             <input type="checkbox" value="remember_me" /> Remember email
           </label>
         </div>
-        <button
-          className="btn btn-lg btn-primary btn-block"
-          id="showLogin"
-          type="button"
-        //   onClick={() => window.location.reload()}
-        >
-          Sign In
-        </button>
         <br />
-        <button className="btn btn-lg btn-success btn-block" type="submit">
+        <button
+          className="btn btn-lg btn-success btn-block"
+          type="submit"
+          onClick={onSubmit}
+        >
           Register New
         </button>
       </form>
-      
     </div>
   );
 };

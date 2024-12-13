@@ -1,20 +1,18 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Landing from "./components/LandingPage/Landing";
-import AddProduct from "./components/products/AddProduct";
-import AllProducts from "./components/products/AllProducts";
+import TabSwitcher from "./components/TabSwitcher";
 
 import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      {/* <Landing /> */}
-      {/* <AddProduct /> */}
-      <AllProducts />
-      <Footer />
+    <div data-bs-theme="dark">
+      <div className="App">
+        <Header />
+        <TabSwitcher />
+        <Footer />
+      </div>
     </div>
   );
 }
