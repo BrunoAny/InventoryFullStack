@@ -16,14 +16,10 @@ const ProductsPage = () => {
         <button className="btn " onClick={() => setActiveTab("add")}>
           Add Product
         </button>
-        <button className="btn " onClick={() => setActiveTab("one")}>
-          One Product
-        </button>
       </div>
-
+      
       {activeTab === "all" && <AllProducts />}
       {activeTab === "add" && <AddProduct />}
-      {/* {activeTab === "one" && <OneProduct />} */}
     </div>
   );
 };

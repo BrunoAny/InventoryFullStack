@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import ProductCard from "./productComps/ProductCard";
+import EditProductForm from "./productComps/EditProductForm";
 import axios from "axios";
 import OneProduct from "./OneProduct";
 
@@ -8,115 +10,112 @@ interface Product {
   type: string;
   image: string;
   id: string;
+  is_archived: boolean;
 }
-
 const AllProducts = () => {
   const [loading, setLoading] = useState(false);
-  // const [sortedProducts, setSortedProducts] = useState<Product[]>([]);
-  // const [sortKey, setSortKey] = useState<"name" | "price" | "type">("name");
-
-  // const handleSort = (key: "name" | "price" | "type") => {
-  //   setSortKey(key);
-  //   setSortedProducts(
-  //     [...products].sort((a, b) =>
-  //       a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0
-  //     )
-  //   );
-  // };
   const [products, setProducts] = useState<Product[]>([]);
-  const getProducts = async () => {
-    setLoading(true);
+  const [editingProduct, setEditingProduct] = useState<string | null>(null);
+  const [editFields, setEditFields] = useState({
+    name: "",
+    price: 0,
+    type: "",
+  });
 
+  const fetchProducts = async () => {
+    setLoading(true);
     try {
-      console.log("Getting products...");
-      const response = await axios.get(
+      const { data } = await axios.get(
         "http://localhost:5000/main/products/all"
       );
-      const products = response.data;
-      console.log("product1", products[0].id);
-      setProducts(products); // Save the list of products in state
+      const activeProducts = data.filter(
+        (product: Product) => product.is_archived === false
+      );
+      setProducts(activeProducts);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching products:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Call getProducts when component mounts
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  const [showOneProduct, setShowOneProduct] = useState(false);
-  const [id, setId] = useState("");
-  const handleProductClick = (productID: string) => {
-    console.log("Product clicked:", productID);
-    setId(productID);
-    setShowOneProduct(true);
+  const handleEditClick = (productId: string) => {
+    const productToEdit = products.find((product) => product.id === productId);
+    if (productToEdit) {
+      setEditingProduct(productId);
+      setEditFields({
+        name: productToEdit.name,
+        price: productToEdit.price,
+        type: productToEdit.type,
+      });
+    }
   };
 
+  const handleFieldChange = (field: string, value: string | number) =>
+    setEditFields((prev) => ({ ...prev, [field]: value }));
+
+  const saveProductUpdates = async () => {
+    try {
+      await axios.put(
+        `http://localhost:5000/main/products/update/${editingProduct}`,
+        editFields
+      );
+      setEditingProduct(null);
+      await fetchProducts(); // Refresh products
+    } catch (err) {
+      console.error("Error updating product:", err);
+    }
+  };
+
+  const handleDelete = async (productId: string, productName: string) => {
+    confirm("Are you sure you want to delete this product?") &&
+      deleteProduct(productId, productName);
+  };
+  const deleteProduct = async (productId: string, productName: string) => {
+    try {
+      setEditingProduct(null);
+      await axios.put(
+        `http://localhost:5000/main/products/update/${productId}`,
+        { is_archived: true, name: `Archived ${productName}` }
+      );
+      await fetchProducts();
+    } catch (err) {
+      console.error("Error deleting product:", err);
+    }
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
-    <div className="container allProducts text-center">
-      {showOneProduct ? (
-        <div className="container">
-          <div className="col-3">
-            <button
-              className="btn btn-outline-danger"
-              onClick={() => setShowOneProduct(false)}
-            >
-              Back
-            </button>
-          </div>
-          <div className="col-12">
-            <OneProduct productID={id} />
-          </div>
-        </div>
+    <div className="allProducts container text-center">
+      <h2>All Products</h2>
+      {loading ? (
+        <p>Loading...</p>
       ) : (
-        <>
-          <h2>All Products</h2>
-          <div className="products-list container text-center">
-            {products.length > 0 ? (
-              <div className="products-list container text-center">
-                <div className="row">
-                  {products.map((product, index) => (
-                    <div
-                      key={index}
-                      className="col-12 col-sm-6 col-md-4 product-card"
-                    >
-                      <div
-                        className="card"
-                        onClick={() => handleProductClick(product.id)}
-                      >
-                        <div className="card-body" id={product.id}>
-                          <div className="col">
-                            {product.image && (
-                              <img
-                                src={product.image}
-                                alt={product.name}
-                                className="card-img-top"
-                                style={{
-                                  maxHeight: "200px",
-                                  objectFit: "cover",
-                                }}
-                              />
-                            )}
-                          </div>
-                          <div className="col">
-                            <h3 className="card-title">{product.name}</h3>
-                            <p className="card-text">Price: ${product.price}</p>
-                            <p className="card-text">Type: {product.type}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              loading && <p>Loading...</p>
+        <div className="products-list container text-center">
+          <div className="row">
+            {products.map((product) =>
+              editingProduct === product.id ? (
+                <EditProductForm
+                  key={product.id}
+                  editFields={editFields}
+                  onFieldChange={handleFieldChange}
+                  onSave={saveProductUpdates}
+                  onCancel={() => setEditingProduct(null)}
+                  onDelete={() => handleDelete(product.id, product.name)}
+                />
+              ) : (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onClick={() => console.log("View product details")}
+                  onEdit={() => handleEditClick(product.id)}
+                />
+              )
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
