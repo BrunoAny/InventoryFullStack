@@ -1,33 +1,32 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import AddProduct from "./AddProduct";
 import AllProducts from "./AllProducts";
 import OneProduct from "./OneProduct";
+import { useState } from "react";
+
 const ProductsPage = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
-
-  useEffect(() => {
-
-    
-  }, [activeTab]);
   return (
     <div>
       <div>
-        <button className="btn btn-primary-outline" onClick={() => setActiveTab("all")}>
+        <button className="btn " onClick={() => setActiveTab("all")}>
           Products
         </button>
-        <button className="btn btn-primary-outline" onClick={() => setActiveTab("add")}>
+        <button className="btn " onClick={() => setActiveTab("add")}>
           Add Product
         </button>
-        <button className="btn btn-primary-outline" onClick={() => setActiveTab("one")}>
+        <button className="btn " onClick={() => setActiveTab("one")}>
           One Product
         </button>
-
-        {activeTab === "all" && <AllProducts />}
-        {activeTab === "add" && <AddProduct />}
-        {activeTab === "one" && <OneProduct />}
       </div>
+
+      {activeTab === "all" && <AllProducts />}
+      {activeTab === "add" && <AddProduct />}
+      {/* {activeTab === "one" && <OneProduct />} */}
     </div>
   );
 };
 
 export default ProductsPage;
+

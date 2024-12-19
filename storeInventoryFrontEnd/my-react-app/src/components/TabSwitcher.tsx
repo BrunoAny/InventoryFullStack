@@ -1,19 +1,33 @@
-import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Landing from "./LandingPage/Landing";
 import ProductsPage from "./products/ProductsPage";
 
 function TabSwitcher() {
-  const [activeTab, setActiveTab] = useState("Landing");
+  const navigate = useNavigate();
 
   return (
     <div>
-      {activeTab !== "Landing" && <nav>
-        <button className="btn btn-secondary" onClick={() => setActiveTab("Landing")}>LOG IN</button>
-        | 
-        <button className="btn btn-secondary" onClick={() => setActiveTab("Products")}>HOME</button>
-      </nav>}
-      {activeTab === "Landing" && <Landing/>}
-      {activeTab === "Products" && <ProductsPage />}
+      <nav>
+        <button className="btn btn-secondary" onClick={() => navigate("/")}>
+          LOG IN
+        </button>
+        |
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate("/products")}
+        >
+          HOME
+        </button>
+      </nav>
+      <Routes>
+        <Route path="/login/" element={<Landing />} />
+        <Route path="/products/" element={<ProductsPage />} />
+      </Routes>
     </div>
   );
 }

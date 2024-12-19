@@ -8,9 +8,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   // const [redirect, setRedirect] = useState(false);
 
-  // if (redirect) {
-  //   window.location.href = "/login";
-  // }
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // For handling login errors
 
