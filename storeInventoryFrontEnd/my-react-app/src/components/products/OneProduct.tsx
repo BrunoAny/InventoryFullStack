@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 interface Product {
   id: string;
-  name: string;
+  sec_name: string;
+  sec_type: string;
   price: number;
   brand: string;
   primary_color: string;
@@ -45,11 +46,9 @@ const OneProduct = ({ productID }: {productID: string}) => {
   return (
     <div className="container oneProduct">
       <div className="row">
-        <div className="col-md-8">
-          <img src={product.image} alt="Product Image" />
-        </div>
         <div className="col-md-4">
-          <h3>{product.name}</h3>
+          <h3>{product.sec_name}</h3>
+          <p>{product.sec_type}</p>
           <p>{product.price}</p>
           <p>{product.brand}</p>
           <p>{product.primary_color}</p>

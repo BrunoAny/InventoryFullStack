@@ -1,33 +1,42 @@
 import { useState, useEffect } from "react";
 import ProductCard from "./productComps/ProductCard";
-import EditProductForm from "./productComps/EditProductForm";
+import ShowDetails from "./productComps/ShowDetails";
 import axios from "axios";
-import OneProduct from "./OneProduct";
 
 interface Product {
+  id: string;
+  products_id: string;
+  brand: string;
   name: string;
+  sec_name: string;
   price: number;
   type: string;
+  sec_type: string;
+  primary_color: string;
+  secondary_color: string;
+  style: string;
   image: string;
-  id: string;
+  inventory_count: number;
+  description: string;
   is_archived: boolean;
 }
+
 const AllProducts = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-  const [editingProduct, setEditingProduct] = useState<string | null>(null);
-  const [editFields, setEditFields] = useState({
-    name: "",
-    price: 0,
-    type: "",
-  });
+  const [expandedProductId, setExpandedProductId] = useState<string | null>(
+    null
+  );
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/main/products/all"
-      );
+      const { data } = await axios.post("http://localhost:5000/main/join", {
+        id: "null",
+        table1: "products",
+        table2: "product_details",
+        join: "inner",
+      });
       const activeProducts = data.filter(
         (product: Product) => product.is_archived === false
       );
@@ -39,50 +48,10 @@ const AllProducts = () => {
     }
   };
 
-  const handleEditClick = (productId: string) => {
-    const productToEdit = products.find((product) => product.id === productId);
-    if (productToEdit) {
-      setEditingProduct(productId);
-      setEditFields({
-        name: productToEdit.name,
-        price: productToEdit.price,
-        type: productToEdit.type,
-      });
-    }
+  const toggleDetails = (productId: string) => {
+    setExpandedProductId(expandedProductId === productId ? null : productId);
   };
 
-  const handleFieldChange = (field: string, value: string | number) =>
-    setEditFields((prev) => ({ ...prev, [field]: value }));
-
-  const saveProductUpdates = async () => {
-    try {
-      await axios.put(
-        `http://localhost:5000/main/products/update/${editingProduct}`,
-        editFields
-      );
-      setEditingProduct(null);
-      await fetchProducts(); // Refresh products
-    } catch (err) {
-      console.error("Error updating product:", err);
-    }
-  };
-
-  const handleDelete = async (productId: string, productName: string) => {
-    confirm("Are you sure you want to delete this product?") &&
-      deleteProduct(productId, productName);
-  };
-  const deleteProduct = async (productId: string, productName: string) => {
-    try {
-      setEditingProduct(null);
-      await axios.put(
-        `http://localhost:5000/main/products/update/${productId}`,
-        { is_archived: true, name: `Archived ${productName}` }
-      );
-      await fetchProducts();
-    } catch (err) {
-      console.error("Error deleting product:", err);
-    }
-  };
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -95,25 +64,26 @@ const AllProducts = () => {
       ) : (
         <div className="products-list container text-center">
           <div className="row">
-            {products.map((product) =>
-              editingProduct === product.id ? (
-                <EditProductForm
-                  key={product.id}
-                  editFields={editFields}
-                  onFieldChange={handleFieldChange}
-                  onSave={saveProductUpdates}
-                  onCancel={() => setEditingProduct(null)}
-                  onDelete={() => handleDelete(product.id, product.name)}
-                />
-              ) : (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onClick={() => console.log("View product details")}
-                  onEdit={() => handleEditClick(product.id)}
-                />
-              )
-            )}
+            {products.map((product) => (
+              <div className="col-md-4 mb-4" key={product.products_id}>
+                <div className="card">
+                  <ProductCard
+                    product={product}
+                    onEdit={() => console.log("Edit product")}
+                    onClick={() => toggleDetails(product.products_id)}
+                    onDetails={() => toggleDetails(product.products_id)}
+                  />
+                  {expandedProductId === product.products_id && (
+                    <div className="details-section">
+                      <ShowDetails
+                        product={product}
+                        onClose={() => setExpandedProductId(null)}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

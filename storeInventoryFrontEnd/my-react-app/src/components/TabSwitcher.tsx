@@ -13,7 +13,7 @@ function TabSwitcher() {
   return (
     <div>
       <nav>
-        <button className="btn btn-secondary" onClick={() => navigate("/")}>
+        <button className="btn btn-secondary" onClick={() => navigate("/login")}>
           LOG IN
         </button>
         |

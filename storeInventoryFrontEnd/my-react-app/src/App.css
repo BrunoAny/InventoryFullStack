@@ -9,7 +9,7 @@ body {
   text-align: center;
   background-color: rgb(33, 32, 34);
   color: wheat;
-  border-radius: 50px;
+  border-radius: 10px;
 }
 
 .landing {
@@ -32,3 +32,8 @@ body {
     border-bottom: 2px solid rgb(77, 76, 76);
   }
 } 
+.product-details {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
