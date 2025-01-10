@@ -34,26 +34,29 @@ const AddProduct = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/main/products/create", {
-        data: {
-          name: formData.name,
-          price: formData.price,
-          type: formData.type
-        },
-        relatedTable: "product_details",
-        relatedData: {
-          name: formData.name,
-          type: formData.type,
-          brand: formData.brand,
-          sex: formData.sex,
-          size: formData.size,
-          primary_color: formData.primaryColor,
-          secondary_color: formData.secondaryColor,
-          inventory_count: formData.inventoryCount,
-          style: formData.style,
-          description: formData.description,
+      const response = await axios.post(
+        "http://localhost:5000/main/products/create",
+        {
+          data: {
+            name: formData.name,
+            price: formData.price,
+            type: formData.type,
+          },
+          relatedTable: "product_details",
+          relatedData: {
+            sec_name: formData.name,
+            sec_type: formData.type,
+            brand: formData.brand,
+            sex: formData.sex,
+            size: formData.size,
+            primary_color: formData.primaryColor,
+            secondary_color: formData.secondaryColor,
+            inventory_count: formData.inventoryCount,
+            style: formData.style,
+            description: formData.description,
+          },
         }
-      });
+      );
       console.log("Product submitted:", response.data);
     } catch (err) {
       console.error("Error submitting product:", err);

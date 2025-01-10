@@ -36,7 +36,7 @@ const ProductCard = ({
         {/* <p className="card-text">Price: ${product.price}</p> */}
         {/* <p className="card-text">Type: {product.type}</p> */}
       </div>
-      <div className="col-3 btn-group-vertical">
+      <div className="col-3 ">
         <button
           className="btn btn-warning"
           type="button"

@@ -37,3 +37,8 @@ body {
   padding: 10px;
   border-radius: 5px;
 }
+.details-section {
+  margin-top: 1px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

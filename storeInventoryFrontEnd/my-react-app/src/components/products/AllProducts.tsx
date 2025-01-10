@@ -62,10 +62,10 @@ const AllProducts = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="products-list container text-center">
-          <div className="row">
+        <div className=" container text-center">
+          <div className="product-list">
             {products.map((product) => (
-              <div className="col-md-4 mb-4" key={product.products_id}>
+              <div className="col mb-4" key={product.products_id}>
                 <div className="card">
                   <ProductCard
                     product={product}

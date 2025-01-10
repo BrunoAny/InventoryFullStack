@@ -44,12 +44,12 @@ const Landing = () => {
                 Register
               </button>
             </div>
-            <div className="col">
+            {/* <div className="col">
               <span>Guest User?</span>
               <div>
                 <button className="btn btn-primary">Guest</button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
