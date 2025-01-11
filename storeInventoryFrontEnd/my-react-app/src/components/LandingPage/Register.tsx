@@ -40,6 +40,7 @@ const Register = () => {
           <input
             type="email"
             id="inputEmail"
+            name="email"
             className="form-control"
             placeholder="Email address"
             value={formData.email}
@@ -53,6 +54,7 @@ const Register = () => {
           <input
             type="username"
             id="inputUsername"
+            name="username"
             className="form-control"
             placeholder="Username"
             value={formData.username}
@@ -65,6 +67,7 @@ const Register = () => {
           <input
             type="password"
             id="inputPassword"
+            name="password"
             className="form-control"
             placeholder="Password"
             value={formData.password}
@@ -77,6 +80,7 @@ const Register = () => {
           <input
             type="password"
             id="inputRePassword"
+            name="rePass"
             className="form-control"
             placeholder="Re-Enter Password"
             value={formData.rePass}

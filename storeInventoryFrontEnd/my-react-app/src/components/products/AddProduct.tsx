@@ -4,8 +4,10 @@ import axios from "axios";
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     name: "",
-    price: 0.00,
+    price: 0.0,
     type: "Tops",
+    sec_name: "",
+    sec_type: "",
     brand: "",
     sex: "Female",
     size: 0,
@@ -44,8 +46,8 @@ const AddProduct = () => {
           },
           relatedTable: "product_details",
           relatedData: {
-            sec_name: formData.name,
-            sec_type: formData.type,
+            sec_name: formData.sec_name,
+            sec_type: formData.sec_type,
             brand: formData.brand,
             sex: formData.sex,
             size: formData.size,
@@ -61,30 +63,29 @@ const AddProduct = () => {
     } catch (err) {
       console.error("Error submitting product:", err);
     }
-
   };
 
   return (
     <div className="container addProduct text-center">
-      <h3>Add New Product</h3>
+      <h4>Add New Product</h4>
       <hr />
       <form id="product-form" className="form" onSubmit={handleSubmit}>
         <h5>Product Information</h5>
 
-        <div className="form-group">
-          <label htmlFor="name">Product Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="form-control form-control-sm"
-          />
-        </div>
         <div className="row text-center">
           <div className="col">
+            <label htmlFor="name">Product Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="form-control form-control-sm"
+            />
+          </div>
+          <div className="col-3">
             <label htmlFor="price">Price:</label>
             <input
               type="number"
@@ -119,7 +120,33 @@ const AddProduct = () => {
 
         <h5>Product Details</h5>
 
-        <div className="form-group">
+        <div className="row text-center">
+          <div className="col">
+            <label htmlFor="name">Secondary Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="sec_name"
+              value={formData.sec_name}
+              onChange={handleChange}
+              required
+              className="form-control form-control-sm"
+            />
+          </div>
+
+          <div className="col">
+            <label htmlFor="type">Secondary Type:</label>
+            <input
+              type="text"
+              id="name"
+              name="sec_type"
+              value={formData.sec_type}
+              onChange={handleChange}
+              required
+              className="form-control form-control-sm"
+            />
+          </div>
+        <div className="col form-group">
           <label htmlFor="brand">Brand:</label>
           <input
             type="text"
@@ -132,6 +159,7 @@ const AddProduct = () => {
           />
         </div>
 
+        </div>
         <div className="row">
           <div className="form-group col">
             <label htmlFor="sex">Sex:</label>

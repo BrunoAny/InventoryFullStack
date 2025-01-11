@@ -1,6 +1,6 @@
 interface ProductDetailsProps {
   product?: {
-    type: string;
+    style: string;
     brand: string;
     primary_color: string;
     secondary_color: string;
@@ -18,8 +18,8 @@ const ShowDetails = ({ product, onClose }: ProductDetailsProps) => {
         <table className="table table-striped">
           <tbody>
             <tr>
-              <td>Type</td>
-              <td>{product.type}</td>
+              <td>Style</td>
+              <td>{product.style}</td>
             </tr>
             <tr>
               <td>Brand</td>
