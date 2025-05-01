@@ -21,7 +21,7 @@ function TabSwitcher() {
           className="btn btn-secondary"
           onClick={() => navigate("/products")}
         >
-          HOME
+          PRODUCTS
         </button>
       </nav>
       <Routes>

@@ -1,13 +1,13 @@
 // AllProducts.tsx
 import { useState } from "react";
-import ProductCard from "./productComps/ProductCard";
-import ShowDetails from "./productComps/ShowDetails";
-import EditProductForm from "./productComps/EditProductForm";
-import { useProductContext } from "./ProductContext"; // Import the context hook
+import { useProductContext } from "./ProductContext";
+import ProductCard from "../productComps/ProductCard";
+import ShowDetails from "../productComps/ShowDetails";
+import EditProductForm from "../productComps/EditProductForm";
 
 const AllProducts = () => {
   const { products, loading, updateProduct, deleteProduct } =
-    useProductContext(); // Use the context
+    useProductContext();
   const [expandedProductId, setExpandedProductId] = useState<string | null>(
     null
   );
@@ -27,7 +27,7 @@ const AllProducts = () => {
 
   const saveEdit = async (updatedFields: Partial<Product>) => {
     if (!editingProductId) return;
-    await updateProduct(editingProductId, updatedFields); // Use context method
+    await updateProduct(editingProductId, updatedFields);
     cancelEditing();
   };
 
@@ -44,7 +44,7 @@ const AllProducts = () => {
                 product={product}
                 onSave={saveEdit}
                 onCancel={cancelEditing}
-                onDelete={() => deleteProduct(product.id)} // Use context method
+                onDelete={() => deleteProduct(product.id)}
               />
             ) : (
               <>

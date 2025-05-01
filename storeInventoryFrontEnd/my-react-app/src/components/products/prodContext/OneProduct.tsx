@@ -1,10 +1,10 @@
 // OneProduct.tsx
 import { useParams } from "react-router-dom";
-import { useProductContext } from "./ProductContext"; // Import the context hook
+import { useProductContext } from "./ProductContext";
 
 const OneProduct = () => {
   const { id } = useParams<{ id: string }>();
-  const { products } = useProductContext(); // Use the context
+  const { products } = useProductContext();
   const product = products.find((p) => p.id === id);
 
   if (!product) return <div>Product not found</div>;

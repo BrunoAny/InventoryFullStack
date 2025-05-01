@@ -1,12 +1,11 @@
-// ProductsPage.tsx
 import { Routes, Route, Link } from "react-router-dom";
 import AddProduct from "./AddProduct";
 import AllProducts from "./AllProducts";
 import OneProduct from "./OneProduct";
-import { useProductContext } from "./ProductContext"; // Import the context hook
+import { useProductContext } from "../context/ProductContext";
 
 const ProductsPage = () => {
-  const { products, loading } = useProductContext(); // Use the context
+  const { products, loading } = useProductContext();
 
   return (
     <div>
